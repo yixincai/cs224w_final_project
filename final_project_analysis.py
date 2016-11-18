@@ -24,30 +24,35 @@ print "different pairs", len(tx_src_dst_pair_num_dis)
 # normalize
 src_counts = [x for x in tx_src_num_dis.keys()]
 src_proportion = [tx_src_num_dis[x]/float(tx_count) for x in tx_src_num_dis.keys()]
-# plt.loglog(src_counts, src_proportion, 'r')
-# plt.title('Number of senders distribution')
-# plt.xlabel('Number of senders')
-# plt.ylabel('Proportion')
+input = [log(x) for x in src_counts]
+y = [log(x) for x in src_proportion]
+A = np.vstack([input, np.ones(len(input))]).T
+
+print np.linalg.lstsq(A, y)
+plt.loglog(src_counts, src_proportion, 'r')
+plt.title('Number of senders distribution')
+plt.xlabel('Number of senders')
+plt.ylabel('Proportion')
 # plt.show()
 
 dst_counts = [x for x in tx_dst_num_dis.keys()]
 dst_proportion = [tx_dst_num_dis[x]/float(tx_count) for x in tx_dst_num_dis.keys()]
-# plt.loglog(dst_counts, dst_proportion, 'g')
-# plt.title('Number of receivers distribution')
-# plt.xlabel('Number of receivers')
-# plt.ylabel('Proportion')
+plt.loglog(dst_counts, dst_proportion, 'g')
+plt.title('Number of receivers distribution')
+plt.xlabel('Number of receivers')
+plt.ylabel('Proportion')
 # plt.show()
 
-# sender_nums = []
-# receiver_nums = []
-# pair_counts = []
-# for key, val in tx_src_dst_pair_num_dis.items():
-	# sender_nums.append(key[0])
-	# receiver_nums.append(key[1])
-	# pair_counts.append(val)
-# fig = plt.figure()
-# ax = fig.add_subplot(111, projection='3d')
-# ax.scatter(sender_nums, receiver_nums, pair_counts, depthshade=True)
+sender_nums = []
+receiver_nums = []
+pair_counts = []
+for key, val in tx_src_dst_pair_num_dis.items():
+	sender_nums.append(key[0])
+	receiver_nums.append(key[1])
+	pair_counts.append(val)
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(sender_nums, receiver_nums, pair_counts, depthshade=True)
 # plt.show()
 
 possible_receiver_given_sender_nums = collections.defaultdict(int)
@@ -80,21 +85,26 @@ plt.loglog(senders, counts, 'b')
 plt.title('receiver variance given sender number')
 plt.xlabel('Sender numbers')
 plt.ylabel('Receiver count possibilities')
-plt.show()
+# plt.show()
 
 maxes = [max_receiver_given_sender_nums[x] for x in keylist]
+input = [log(x) for x in senders]
+y = [log(x) for x in maxes]
+A = np.vstack([input, np.ones(len(input))]).T
+print np.linalg.lstsq(A, y)
+
 plt.loglog(senders, maxes, 'b')
 plt.title('receiver max given sender number')
 plt.xlabel('Sender numbers')
 plt.ylabel('Max Receiver numbers')
-plt.show()
+# plt.show()
 
 mins = [min_receiver_given_sender_nums[x] for x in keylist]
 plt.plot(senders, mins, 'b')
 plt.title('receiver min given sender number')
 plt.xlabel('Sender numbers')
 plt.ylabel('Min Receiver numbers')
-plt.show()
+# plt.show()
 
 keylist = receiver_dis_given_one_sender.keys()
 keylist.sort()
@@ -104,7 +114,7 @@ plt.loglog(receivers, count, 'b')
 plt.title('Receiver count distribution given 1 sender')
 plt.xlabel('Receiver count')
 plt.ylabel('Number of Receiver counts')
-plt.show()
+# plt.show()
 
 keylist = receiver_dis_given_two_sender.keys()
 keylist.sort()
@@ -114,7 +124,7 @@ plt.loglog(receivers, count, 'b')
 plt.title('Receiver count distribution given 2 senders')
 plt.xlabel('Receiver count')
 plt.ylabel('Number of Receiver counts')
-plt.show()
+# plt.show()
 
 keylist = receiver_dis_given_three_sender.keys()
 keylist.sort()
@@ -124,7 +134,7 @@ plt.loglog(receivers, count, 'b')
 plt.title('Receiver count distribution given 3 senders')
 plt.xlabel('Receiver count')
 plt.ylabel('Number of Receiver counts')
-plt.show()
+# plt.show()
 
 
 

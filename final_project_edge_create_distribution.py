@@ -46,3 +46,9 @@ plt.title('Monthly transaction log scale')
 plt.xlabel('Month')
 plt.ylabel('Monthly Transactions')
 plt.show()
+
+input = [x for x in keylist]
+y = [log(monthly_transaction[x]) for x in keylist]
+A = np.vstack([input, np.ones(len(input))]).T
+
+print np.linalg.lstsq(A, y)
